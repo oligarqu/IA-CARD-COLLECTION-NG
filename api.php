@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
@@ -10,7 +11,6 @@ $action = $_GET['action'] ?? '';
 
 try {
     switch($action) {
-        // Récupérer toutes les cartes
         case 'getCards':
             $stmt = $pdo->query("
                 SELECT c.*, r.name as rarity_name, r.color, r.base_value, ct.name as type_name
@@ -23,7 +23,6 @@ try {
             echo json_encode(['success' => true, 'cards' => $cards]);
             break;
         
-        // Récupérer les packs
         case 'getPacks':
             $stmt = $pdo->query("SELECT * FROM packs WHERE is_active = 1");
             $packs = $stmt->fetchAll();
@@ -43,12 +42,14 @@ try {
             echo json_encode(['success' => true, 'packs' => $packs]);
             break;
         
-        // Ouvrir un pack
         case 'openPack':
+            if(!isset($_SESSION['user'])) {
+                echo json_encode(['success' => false, 'error' => 'Non authentifié']);
+                break;
+            }
+            $userId = $_SESSION['user']['id'];
             $packId = $_POST['pack_id'] ?? $_GET['pack_id'] ?? 1;
-            $userId = $_POST['user_id'] ?? $_GET['user_id'] ?? 1;
             
-            // Récupérer les cartes du pack avec leurs poids
             $stmt = $pdo->prepare("
                 SELECT pc.card_id, pc.weight, c.*, r.name as rarity_name
                 FROM pack_card pc
@@ -64,13 +65,11 @@ try {
                 break;
             }
             
-            // Récupérer le nombre de cartes par pack
             $stmt2 = $pdo->prepare("SELECT cards_per_pack, name FROM packs WHERE id = ?");
             $stmt2->execute([$packId]);
             $pack = $stmt2->fetch();
             $cardsToDraw = $pack['cards_per_pack'] ?? 5;
             
-            // Fonction de tirage pondéré
             function weightedRandom($items) {
                 $totalWeight = array_sum(array_column($items, 'weight'));
                 $random = mt_rand(1, $totalWeight);
@@ -89,7 +88,6 @@ try {
                 $card = weightedRandom($cardsInPack);
                 $drawnCards[] = $card;
                 
-                // Ajouter à l'inventaire
                 $stmt3 = $pdo->prepare("SELECT id, quantity FROM inventory WHERE user_id = ? AND card_id = ?");
                 $stmt3->execute([$userId, $card['card_id']]);
                 $existing = $stmt3->fetch();
@@ -106,9 +104,8 @@ try {
             echo json_encode(['success' => true, 'cards' => $drawnCards, 'pack_name' => $pack['name'] ?? 'Pack']);
             break;
         
-        // Récupérer l'inventaire d'un joueur
         case 'getInventory':
-            $userId = $_GET['user_id'] ?? 1;
+            $userId = $_SESSION['user']['id'] ?? 1;
             $stmt = $pdo->prepare("
                 SELECT i.*, c.name, c.attack, c.hp, c.is_object, c.description,
                        r.name as rarity_name, r.color, r.base_value
@@ -130,13 +127,78 @@ try {
             echo json_encode(['success' => true, 'inventory' => $inventory, 'total_value' => $totalValue, 'total_cards' => $totalCards]);
             break;
         
-        // Connexion simplifiée
         case 'login':
-            // Pour les tests, on connecte directement l'utilisateur 2 (JoueurTest)
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE id = 2");
-            $stmt->execute();
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
             $user = $stmt->fetch();
-            echo json_encode(['success' => true, 'user' => ['id' => $user['id'], 'name' => $user['name'], 'role' => $user['role']]]);
+            
+            if($user && password_verify($password, $user['password'])) {
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'name' => $user['name'],
+                    'email' => $user['email'],
+                    'role' => $user['role']
+                ];
+                echo json_encode(['success' => true, 'user' => $_SESSION['user']]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Email ou mot de passe incorrect']);
+            }
+            break;
+        
+        case 'register':
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $passwordConfirmation = $_POST['password_confirmation'] ?? '';
+            
+            if(empty($name) || empty($email) || empty($password)) {
+                echo json_encode(['success' => false, 'error' => 'Tous les champs sont requis']);
+                break;
+            }
+            
+            if($password !== $passwordConfirmation) {
+                echo json_encode(['success' => false, 'error' => 'Les mots de passe ne correspondent pas']);
+                break;
+            }
+            
+            if(strlen($password) < 6) {
+                echo json_encode(['success' => false, 'error' => 'Le mot de passe doit contenir au moins 6 caractères']);
+                break;
+            }
+            
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            if($stmt->fetch()) {
+                echo json_encode(['success' => false, 'error' => 'Cet email est déjà utilisé']);
+                break;
+            }
+            
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'player')");
+            $result = $stmt->execute([$name, $email, $hashedPassword]);
+            
+            if($result) {
+                echo json_encode(['success' => true, 'email' => $email]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Erreur lors de la création du compte']);
+            }
+            break;
+        
+        case 'logout':
+            session_destroy();
+            echo json_encode(['success' => true]);
+            break;
+        
+        // ⭐ ACTION MANQUANTE AJOUTÉE ICI ⭐
+        case 'checkAuth':
+            if(isset($_SESSION['user'])) {
+                echo json_encode(['success' => true, 'user' => $_SESSION['user']]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
             break;
         
         default:

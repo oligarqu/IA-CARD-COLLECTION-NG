@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+// Vérifier si l'utilisateur est connecté
+if(!isset($_SESSION['user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+$user = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
