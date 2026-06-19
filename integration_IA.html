@@ -3,7 +3,7 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$openai_key = ""; // Ta clé OpenAI ici
+$openai_key = "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"; 
 
 if (!isset($_SESSION['chat'])) {
     $_SESSION['chat'] = array();
@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = array(
             "model" => "gpt-3.5-turbo",
             "messages" => array(
-                array("role" => "system", "content" => "Tu es un assistant juridique qui répond simplement."),
+                array("role" => "system", "content" => "Tu dois générer des paqquets de cartes Minecraft."),
                 array("role" => "user", "content" => $question)
             ),
             "temperature" => 0.7
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<title>Assistant Juridique Simple</title>
+<title>Générateur de paquet de cartes </title>
 <style>
   body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; background: #f9f9f9; padding: 10px; }
   #chat-box { border: 1px solid #ccc; background: white; height: 400px; padding: 10px; overflow-y: auto; margin-bottom: 10px; }
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 </head>
 <body>
-  <h2>Assistant Juridique Simple</h2>
+  <h2>Générateur de paquet de cartes</h2>
 
   <div id="chat-box">
     <?php
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <form method="POST" action="">
-    <textarea name="question" rows="2" placeholder="Écris ta question juridique ici..." required></textarea>
+    <textarea name="question" rows="2" placeholder="..." required></textarea>
     <button type="submit">Envoyer</button>
   </form>
 
