@@ -224,3 +224,196 @@ body {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     }
 }
+
+/* ── BOUTONS ── */
+.btn-primary {
+    background: linear-gradient(135deg, #ffb347, #ff8c00);
+    border: none; border-radius: 40px; padding: 10px 22px;
+    font-size: .9rem; font-weight: 600; color: #0f172a; cursor: pointer;
+    transition: transform .15s, opacity .15s;
+}
+.btn-primary:hover { transform: translateY(-2px); opacity: .9; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.btn-secondary {
+    background: #1e2a3a; border: 1px solid #2d3a5e; border-radius: 40px;
+    padding: 10px 22px; font-size: .9rem; color: #edf2ff; cursor: pointer; transition: border-color .2s;
+}
+.btn-secondary:hover { border-color: #ffb347; }
+
+.btn-success {
+    background: #16a34a; border: none; border-radius: 40px; padding: 10px 22px;
+    font-size: .9rem; font-weight: 600; color: #fff; cursor: pointer; transition: opacity .15s;
+}
+.btn-success:hover { opacity: .85; }
+
+.btn-danger {
+    background: #dc2626; border: none; border-radius: 40px; padding: 10px 22px;
+    font-size: .9rem; font-weight: 600; color: #fff; cursor: pointer; transition: opacity .15s;
+}
+.btn-danger:hover { opacity: .85; }
+
+.btn-sm { padding: 4px 10px !important; font-size: .78rem !important; border-radius: 20px !important; }
+
+/* ── PACKS BOUTIQUE ── */
+.pack-card-shop {
+    background: #111827; border-radius: 24px; padding: 28px; text-align: center;
+    margin-bottom: 20px; border: 1px solid #2d3a5e;
+}
+.pack-icon { font-size: 3rem; color: #ffb347; margin-bottom: 12px; display: block; }
+.pack-price { font-size: 1.3rem; font-weight: 700; color: #ffb347; margin: 12px 0; }
+.pack-result-header { font-size: 1.3rem; font-weight: 700; text-align: center; margin: 20px 0 12px; }
+
+/* ── FORMULAIRES ── */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; color: #b9c3da; font-size: .9rem; }
+.form-input {
+    width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid #2d3a5e;
+    border-radius: 12px; font-size: .9rem; color: #edf2ff; transition: border-color .2s;
+}
+.form-input:focus { outline: none; border-color: #ffb347; }
+textarea.form-input { resize: vertical; }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+
+/* ── TABLES ADMIN ── */
+.admin-table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid #2d3a5e; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.admin-table th {
+    background: #0f172a; padding: 10px 14px; text-align: left;
+    color: #8b9bb5; font-weight: 600; white-space: nowrap;
+}
+.admin-table td { padding: 10px 14px; border-top: 1px solid #1e2a3a; vertical-align: middle; }
+.admin-table tr:hover td { background: #111827; }
+
+.admin-form-card {
+    background: #111827; border: 1px solid #2d3a5e; border-radius: 20px; padding: 20px; margin-bottom: 20px;
+}
+.admin-form-card h3 { margin-bottom: 16px; }
+
+/* ── IA SECTION ── */
+.ia-section {
+    background: linear-gradient(135deg, #1a1f2e, #0f172a); border: 1px solid #3b4a6b;
+    border-radius: 20px; padding: 20px; margin-bottom: 24px;
+}
+.ia-section h3 { margin-bottom: 12px; color: #ffb347; }
+
+/* ── ÉCHANGES ── */
+.trade-section { margin-bottom: 28px; }
+.trade-section h3 { margin-bottom: 16px; }
+.trade-empty { color: #8b9bb5; font-size: .9rem; padding: 12px 0; }
+.trade-card {
+    background: #111827; border: 1px solid #2d3a5e; border-radius: 20px; padding: 16px; margin-bottom: 14px;
+}
+.trade-meta { margin-bottom: 14px; font-size: .9rem; }
+.trade-row { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; }
+.trade-col { flex: 1; min-width: 120px; }
+.trade-col-title { font-size: .8rem; color: #8b9bb5; margin-bottom: 8px; }
+.trade-arrow { font-size: 1.8rem; align-self: center; color: #ffb347; }
+.trade-cards-mini { display: flex; flex-wrap: wrap; gap: 8px; }
+.trade-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.trade-history-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+    border-radius: 12px; background: #0f172a; margin-bottom: 8px; font-size: .85rem; flex-wrap: wrap;
+}
+
+/* ── MINI CARTE ── */
+.card-mini {
+    background: #111827; border-radius: 10px; width: 90px;
+    border: 1px solid #2d3a5e; overflow: hidden; font-size: .75rem;
+}
+.rarity-border-commun    { border-color: #9ca3af; }
+.rarity-border-rare      { border-color: #3b82f6; }
+.rarity-border-epic      { border-color: #a855f7; }
+.rarity-border-legendaire{ border-color: #fbbf24; }
+
+/* ── SÉLECTION ÉCHANGE ── */
+.trade-propose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+@media (max-width: 600px) { .trade-propose-grid { grid-template-columns: 1fr; } }
+.card-select-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.card-selectable {
+    background: #111827; border: 2px solid #2d3a5e; border-radius: 10px;
+    width: 90px; cursor: pointer; transition: border-color .2s, transform .1s; overflow: hidden;
+}
+.card-selectable:hover { border-color: #ffb347; transform: scale(1.03); }
+.card-selectable.selected { border-color: #ffb347; box-shadow: 0 0 0 2px #ffb347; }
+
+/* ── BADGES STATUS ── */
+.badge { padding: 3px 10px; border-radius: 20px; font-size: .75rem; font-weight: 600; }
+.badge-pending   { background: rgba(251,191,36,.2);  color: #fbbf24; }
+.badge-accepted  { background: rgba(34,197,94,.2);   color: #22c55e; }
+.badge-refused   { background: rgba(239,68,68,.2);   color: #ef4444; }
+.badge-cancelled { background: rgba(156,163,175,.2); color: #9ca3af; }
+
+/* ── PROFIL ── */
+.profile-header { text-align: center; padding: 20px 0 12px; }
+.profile-header h2 { margin: 8px 0 6px; font-size: 1.5rem; }
+.role-badge { background: #1e2a3a; border: 1px solid #2d3a5e; padding: 4px 14px; border-radius: 20px; font-size: .8rem; }
+.profile-stats { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+.profile-stat {
+    flex: 1; min-width: 100px; background: #111827; border-radius: 16px;
+    padding: 16px; text-align: center; border: 1px solid #2d3a5e;
+}
+.ps-value { font-size: 1.3rem; font-weight: 700; color: #ffb347; }
+.ps-label { font-size: .75rem; color: #8b9bb5; margin-top: 4px; }
+.profile-rarity-bar { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.pbar-item { font-size: .85rem; }
+
+/* ── TOAST ── */
+.toast {
+    display: none; position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+    background: #16a34a; color: #fff; padding: 12px 24px; border-radius: 40px;
+    font-size: .9rem; font-weight: 600; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.4); white-space: nowrap;
+}
+.toast-error { background: #dc2626; }
+
+/* ── QUÊTES ── */
+.quest-card {
+    background: #111827; border: 1px solid #2d3a5e; border-radius: 16px;
+    padding: 16px; margin-bottom: 12px; transition: border-color .2s;
+}
+.quest-card.claimable { border-color: #22c55e55; }
+.quest-progress-bar {
+    background: #1e2a3a; border-radius: 20px; height: 8px; overflow: hidden; margin-bottom: 10px;
+}
+.quest-progress-fill {
+    height: 100%; border-radius: 20px; transition: width .4s ease;
+}
+
+/* ── ADMIN DASHBOARD ── */
+.admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px; margin-bottom: 24px;
+}
+.admin-stat-box {
+    background: #111827; border-radius: 16px; padding: 16px; text-align: center;
+}
+.admin-stat-value { font-size: 1.3rem; font-weight: 700; }
+.admin-stat-label { font-size: .75rem; color: #8b9bb5; margin-top: 2px; }
+
+.activity-log-item {
+    display: flex; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid #1e2a3a; font-size: .82rem; flex-wrap: wrap;
+}
+
+/* ── COINS BADGE ── */
+.coins-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,180,71,.12); border: 1px solid rgba(255,180,71,.25);
+    border-radius: 20px; padding: 4px 12px; font-weight: 700; color: #ffb347;
+    font-size: .9rem;
+}
+
+/* ── PACK AFFORDABILITY ── */
+.pack-locked { opacity: .6; filter: grayscale(.4); }
+
+/* ── CARD IMAGE OVERRIDE ── */
+.card-item img, .card-mini img, .card-selectable img {
+    display: block;
+}
+
+/* ── TOP JOUEURS ── */
+.top-user-row {
+    display: flex; align-items: center; gap: 10px; padding: 8px 0;
+    border-bottom: 1px solid #1e2a3a;
+}
